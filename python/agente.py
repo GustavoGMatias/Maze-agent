@@ -1,4 +1,5 @@
 from estruturas import Pilha, Fila
+import copy
 
 mapa = [
        [ "#", "#", "S", ".", "#", "#"],
@@ -67,3 +68,20 @@ def agente (mapa, estrutura):
                 estrutura.inserir(vizinho)
 
     return False, len(visitados) 
+
+def mostrar(mapa, caminho):
+    copia = copy.deepcopy(mapa)
+    for r, c in caminho:
+        if copia[r][c] not in ("S", "E"):
+            copia[r][c] = "*"
+    for linha in copia:
+        print("".join(linha))
+
+if __name__ == "__main__":
+    print("Saída no metodo de pilha:")
+    print(agente(mapa, Pilha()))
+
+    print("Saída no metodo de Fila:")
+    print(agente(mapa, Fila()))
+    achou, visitadas, caminho = agente(mapa, Fila())
+    mostrar(mapa, caminho)
