@@ -67,9 +67,3 @@ def agente (mapa, estrutura):
                 estrutura.inserir(vizinho)
 
     return False, len(visitados) 
-
-print("Saída no metodo de pilha:")
-print(agente(mapa, Pilha()))
-
-print("Saída no metodo de Fila:")
-print(agente(mapa, Fila()))
