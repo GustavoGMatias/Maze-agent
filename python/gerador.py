@@ -1,7 +1,7 @@
 import random
 from estruturas import Pilha
 
-def gerar(tamanho):
+def gerar_passos(tamanho):
     mapa = [["#"] * tamanho for _ in range(tamanho)]
     pilha = Pilha()
     mapa[1][1] = "."
@@ -23,12 +23,19 @@ def gerar(tamanho):
             mapa[r + dr][c + dc] = "."
             pilha.inserir((r, c))
             pilha.inserir((r + dr, c + dc))
+            yield mapa
 
     mapa[1][1] = "S"
     mapa[tamanho - 2][tamanho - 2] = "E"
+    yield mapa
+
+
+def gerar(tamanho):
+    for mapa in gerar_passos(tamanho):
+        pass
     return mapa
 
 
 if __name__ == "__main__":
-    for linha in gerar(51):
+    for linha in gerar(11):
         print("".join(linha))
