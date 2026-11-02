@@ -4,12 +4,20 @@ Um agente de IA simples que encontra o caminho da entrada até a saída de um la
 
 ## Como rodar
 
+Versão visual, com labirinto gerado aleatoriamente:
+
 ```bash
 cd python
-python3 agente.py
+python3 visual.py
 ```
 
-O programa roda o agente duas vezes no mesmo labirinto, uma com pilha e outra com fila, e imprime se achou a saída, quantas salas visitou e o caminho.
+Abre uma janela que cava um labirinto novo a cada execução. Depois, os botões **DFS** e **BFS** resolvem o labirinto e mostram quantas salas cada um visitou. No Linux, se faltar o tkinter: `sudo apt install python3-tk`.
+
+Versão de terminal, no labirinto fixo 6x6:
+
+```bash
+python3 agente.py
+```
 
 ## O mapa
 
@@ -38,7 +46,15 @@ Dois conjuntos de memória fazem o agente funcionar:
 - `visitados`, um `set` com as salas que ele já viu, pra não girar em círculo no ciclo do mapa;
 - `veio_de`, um dicionário que guarda, pra cada sala, de qual sala o agente veio. Quando chega na saída, eu sigo esses "bilhetes" de trás pra frente pra montar o caminho.
 
-Resultado no mapa acima: a pilha visitou 16 salas e a fila visitou 19, e as duas chegaram à saída por um caminho de 12 salas.
+No mapa 6x6 acima, a pilha visitou 16 salas e a fila visitou 19, e as duas chegaram à saída por um caminho de 12 salas.
+
+## Gerador de labirinto
+
+Os labirintos grandes são gerados por um DFS que escreve em vez de procurar: começo numa grade toda de parede, caminho pulando de 2 em 2 casas pra um vizinho ainda fechado, cavo a parede do meio e empilho a sala nova. Quando travo, desempilho e volto pra uma sala mais antiga. Uso a mesma `Pilha` do agente.
+
+Como esse labirinto só tem um caminho entre `S` e `E`, DFS e BFS devolvem o mesmo caminho, e a diferença aparece na quantidade de salas visitadas.
+
+A animação da janela usa `yield` no gerador (ele entrega o mapa a cada casa cavada e pausa) e `after` do tkinter pra redesenhar sem travar.
 
 ## Estrutura do projeto
 
@@ -47,7 +63,9 @@ meu-primeiro-agente/
 ├── README.md
 ├── python/
 │   ├── estruturas.py   # classes Pilha e Fila
-│   └── agente.py       # mapa, vizinhos e o agente
+│   ├── agente.py       # mapa, vizinhos e o agente
+│   ├── gerador.py      # gerador de labirinto (DFS com pilha)
+│   └── visual.py       # janela com tkinter
 └── c/                  # versão em C (em breve)
 ```
 
@@ -58,9 +76,11 @@ meu-primeiro-agente/
 - Que o papel conta a partir de 1 e o código a partir de 0. Esse deslocamento de 1 me pegou na hora de achar o `S`.
 - Checar os limites do mapa antes de acessar `mapa[linha][coluna]`, pra não ler fora dele.
 - Usar `set` pra lembrar onde já estive e dicionário pra lembrar de onde vim.
-- Que DFS e BFS são o mesmo algoritmo com uma caixinha diferente.
+- Que DFS e BFS são o mesmo algoritmo com uma caixinha diferente, e que o DFS também serve pra construir labirinto.
+- Geradores com `yield` e animação com `after`, sem travar a janela.
+- Que o `.gitignore` só vale pra arquivo novo: o que já foi commitado precisa sair com `git rm --cached`.
 
 ## Próximos passos
 
 - Reescrever as estruturas e o agente em C, com array e `struct`.
-- Testar um labirinto maior.
+- Gerar labirintos com ciclos, pra DFS e BFS devolverem caminhos diferentes.
