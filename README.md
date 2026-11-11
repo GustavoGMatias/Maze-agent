@@ -1,6 +1,12 @@
+![Maze Agent — DFS & BFS](assets/banner.svg)
+
 # Meu primeiro agente: saindo de um labirinto
 
 Um agente de IA simples que encontra o caminho da entrada até a saída de um labirinto. Fiz esse projeto pra juntar três coisas: lógica de agentes, estruturas de dados (pilha e fila) e prática de Python, e depois levar tudo pra C.
+
+<p align="center">
+  <img src="assets/dfs-bfs.svg" alt="Diagrama comparando DFS com pilha e BFS com fila" width="100%">
+</p>
 
 ## Como rodar
 
@@ -59,8 +65,11 @@ A animação da janela usa `yield` no gerador (ele entrega o mapa a cada casa ca
 ## Estrutura do projeto
 
 ```
-meu-primeiro-agente/
+Maze-agent/
 ├── README.md
+├── assets/
+│   ├── banner.svg       # identidade visual do projeto
+│   └── dfs-bfs.svg      # comparação visual entre DFS e BFS
 ├── python/
 │   ├── estruturas.py   # classes Pilha e Fila
 │   ├── agente.py       # mapa, vizinhos e o agente
